@@ -1,5 +1,6 @@
 import os
 import cv2
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -95,3 +96,26 @@ class ImagePloter:
         
         plt.show()
         plt.close('all')
+def histogram(img):
+    WB = np.zeros(256)
+    WG = np.zeros(256)
+    WR = np.zeros(256)
+    
+    l, c, z = img.shape
+    
+    B = img[:,:,0]
+    G = img[:,:,1]
+    R = img[:,:,2]
+    
+    for i in range(l):
+        for j in range(c):
+            WB[B[i,j]] = WB[B[i,j]]+1
+            WG[G[i,j]] = WG[G[i,j]]+1 
+            WR[R[i,j]] = WR[R[i,j]]+1
+          
+    for i in range(256):
+        WB[i] = WB[i]/(l*c)
+        WG[i] = WG[i]/(l*c)
+        WR[i] = WR[i]/(l*c)
+
+    return [WB,WG,WR]
